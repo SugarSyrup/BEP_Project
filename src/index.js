@@ -13,8 +13,11 @@ root.render(
     <BrowserRouter>
       <Layout>
         <Routes>
+          {/* 정책 소개 메인 페이지 */}
           <Route path="/" element={<Home />} />
+          {/* 정책 소개 상세 페이지 */}
           <Route path="/:id" element={<Detail />} />
+          {/* 신문고 */}
           <Route path="/ask" element={<Ask />} />
         </Routes>
       </Layout>
