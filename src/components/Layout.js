@@ -1,14 +1,22 @@
 import React from "react";
-import { Col, Container, Nav, NavDropdown, Navbar, Row } from "react-bootstrap";
+import { Container, Nav, Row } from "react-bootstrap";
+import Navbar from 'react-bootstrap/Navbar';
 
 export default  function Layout({children}) {
   return (
     <Container fluid>
-      <Row>
-        <header fixed="top">
-          <Navbar.Brand href="/" style={{appearance:'none', textDecoration:'none', color:'black', fontSize:'2rem', fontWeight:'bold', marginLeft:'1rem', marginTop:'1rem'}}>LOGO</Navbar.Brand>
-        </header>
-      </Row>
+      <Navbar expand="lg" className="bg-body-tertiary" style={{backgroundColor:'black', position:'sticky'}}>
+        <Container>
+          <Navbar.Brand href="/" style={{fontSize:'2rem', fontWeight:'bold'}}>LOGO</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/ask">Link</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
       <main style={{width:"90%",margin:'auto'}}>
         {children}
       </main>
