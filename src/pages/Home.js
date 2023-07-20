@@ -40,13 +40,15 @@ export default  function Home() {
             </div>
           </div>
       </Container>
-      <div>
-        <h1>청년정책 검색 결과</h1>
-        <div>
-          <span>
-            정책 명
-          </span>
-          <span>내용</span>
+      <div style={{marginTop:'60px'}}>
+        <span style={{fontSize:36, fontWeight:'bolder'}}>청년정책 검색 결과</span>
+        <div style={{width:300, height:300, backgroundColor:'lightcyan', boxSizing:'border-box', padding:20, marginTop:'20px', borderRadius:'20px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
+          <span style={{fontSize:20, wordSpacing:'-5px', fontWeight:700}}>쳥년 취창업 아카데미 연중 운영</span>
+          <span style={{}}>부산시</span>
+          <div style={{display:'flex', justifyContent:'space-between', boxSizing:'border-box', paddingLeft:'5px', paddingRight:'5px'}}>
+            <span>상시</span>
+            <span>일자리분야</span>
+          </div>
         </div>
       </div>
     </div>
