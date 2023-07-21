@@ -35,7 +35,7 @@
 
 #item-number {
 	font-weight: 700;
-	color: orange;
+	color: lightcoral;
 }
 
 #table-header-right {
@@ -51,8 +51,8 @@
 	width: 80px;
 }
 
-#table-body {
-	margin-top: 30px;
+.table-body {
+	margin-top: 10px;
 }
 
 #table-footer {
@@ -60,4 +60,60 @@
 	display: flex;
 	justify-content: center;
 	align-content: center;
+}
+
+thead {
+	height: 55px;
+}
+
+/*  */
+
+.content-body {
+	width: 100%;
+	white-space: pre-line;
+	padding: 0 10px;
+}
+
+#recommendation {
+	padding: 0 10px;
+	margin-bottom: 30px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#recommendation-image {
+	padding: 0;
+	margin-right: 5px;
+}
+
+#before-wrapper {
+	margin: 10px 0 50px 0;
+	padding-top: 35px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#before {
+	width: 250px;
+}
+
+#before a,
+#table-button a {
+	color: white;
+	text-decoration: none;
+}
+
+/*  */
+
+#input-title {
+	width: 100%;
+}
+
+#input-content {
+	min-height: 500px;
+	margin-top: 10px;
 }
