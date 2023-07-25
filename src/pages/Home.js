@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import {useForm} from 'react-hook-form';
 
-import Policy from "../components/policy";
+import Policy from "../components/Policy";
+import Checkbox from "../components/Checkbox";
 
 //정책 소개 메인 페이지
 export default  function Home() {
@@ -45,34 +46,12 @@ export default  function Home() {
             </div>
             <div style={{display:'flex', flexDirection:'row', boxSizing:'border-box', marginBottom:10}}>
               <label style={{width:80, marginBottom:'10px', marginRight:20, marginLeft: '20px', fontSize:18, fontWeight:700}}>정책 분야</label>
-              <label style={{width:'140px', height:'30px', backgroundColor:`${bgColor}`, marginRight:'5px', border:'1px solid lightgrey', display:'flex', justifyContent:'center', alignItems:'center', fontWeight:'bolder'}} htmlFor="1"  onClick={(e) => {
-                setBgcolor(prev => prev === 'white' ? 'blue' : 'white');
-                console.log(e.currentTarget.style.backgroundColor === 'white' ? 'blue' : 'white');
-              }}>
-                정책분야1
-                  <input {...register('policyField')} type="checkbox" style={{display:'none'}} id="1"/>
-              </label>
-              <label style={{width:'140px', height:'30px', backgroundColor:`${bgColor}`, marginRight:'5px', border:'1px solid lightgrey', display:'flex', justifyContent:'center', alignItems:'center', fontWeight:'bolder'}} htmlFor="1"  onClick={(e) => {
-                setBgcolor(prev => prev === 'white' ? 'blue' : 'white');
-                console.log(e.currentTarget.style.backgroundColor === 'white' ? 'blue' : 'white');
-              }}>
-                정책분야2
-                  <input {...register('policyField')} type="checkbox" style={{display:'none'}} id="1"/>
-              </label>
-              <label style={{width:'140px', height:'30px', backgroundColor:`${bgColor}`, marginRight:'5px', border:'1px solid lightgrey', display:'flex', justifyContent:'center', alignItems:'center', fontWeight:'bolder'}} htmlFor="1"  onClick={(e) => {
-                setBgcolor(prev => prev === 'white' ? 'blue' : 'white');
-                console.log(e.currentTarget.style.backgroundColor === 'white' ? 'blue' : 'white');
-              }}>
-                정책분야3
-                  <input {...register('policyField')} type="checkbox" style={{display:'none'}} id="1"/>
-              </label>
-              <label style={{width:'140px', height:'30px', backgroundColor:`${bgColor}`, marginRight:'5px', border:'1px solid lightgrey', display:'flex', justifyContent:'center', alignItems:'center', fontWeight:'bolder'}} htmlFor="1"  onClick={(e) => {
-                setBgcolor(prev => prev === 'white' ? 'blue' : 'white');
-                console.log(e.currentTarget.style.backgroundColor === 'white' ? 'blue' : 'white');
-              }}>
-                정책분야4
-                  <input {...register('policyField')} type="checkbox" style={{display:'none'}} id="1"/>
-              </label>
+              
+              <Checkbox name="정책분야1" id="1" register={register('check1')}/>
+              <Checkbox name="정책분야2" id="2" register={register('check2')}/>
+              <Checkbox name="정책분야3" id="3" register={register('check3')}/>
+              <Checkbox name="정책분야4" id="4" register={register('check4')}/>
+              
             </div>
             
             <div style={{display:'flex', flexDirection:'row', boxSizing:'border-box', marginBottom:10, display:'flex', justifyContent:'space-between', width:'90%', alignItems:'center'}}>

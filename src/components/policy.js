@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
 
 function Policy(props) {
-    const {name, location, date, tag} = props
-    useEffect(() => {
-        console.log(props)
-    }, [])
+    const {name, location, date, tag} = props;
+    
     return(
     <StyledDiv>
         <span class="title">{name}</span>
