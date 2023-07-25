@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import {useForm} from 'react-hook-form';
 
+import Policy from "../components/policy";
+
 //정책 소개 메인 페이지
 export default  function Home() {
   const {register, handleSubmit, watch, formState:{errors}} = useForm();
@@ -11,6 +13,14 @@ export default  function Home() {
     console.log(data);
   }
 
+  const example = {
+    id: '1',
+    name: '청년 취창업 아카데미 연중 운영',
+    location: '부산시',
+    date: '상시',
+    tag: '일자리분야'
+  }
+
   return (
     <div>
       <Container onSubmit={handleSubmit(onSubmit)}>
@@ -18,38 +28,10 @@ export default  function Home() {
           <span style={{fontSize:24, fontWeight:'bolder'}}>최근 정책 알림</span>
           <div style={{display:'flex', gap:40, marginBottom:'40px', alignItems:'center'}}>
             <span style={{fontSize:'44px', fontWeight:'bolder'}}>{`<`}</span>
-            <div style={{width:300, height:300, backgroundColor:'lightcyan', boxSizing:'border-box', padding:20, marginTop:'20px', borderRadius:'20px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-              <span style={{fontSize:20, wordSpacing:'-5px', fontWeight:700}}>쳥년 취창업 아카데미 연중 운영</span>
-              <span style={{}}>부산시</span>
-              <div style={{display:'flex', justifyContent:'space-between', boxSizing:'border-box', paddingLeft:'5px', paddingRight:'5px'}}>
-                <span>상시</span>
-                <span>일자리분야</span>
-              </div>
-            </div>
-            <div style={{width:300, height:300, backgroundColor:'lightcyan', boxSizing:'border-box', padding:20, marginTop:'20px', borderRadius:'20px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-              <span style={{fontSize:20, wordSpacing:'-5px', fontWeight:700}}>쳥년 취창업 아카데미 연중 운영</span>
-              <span style={{}}>부산시</span>
-              <div style={{display:'flex', justifyContent:'space-between', boxSizing:'border-box', paddingLeft:'5px', paddingRight:'5px'}}>
-                <span>상시</span>
-                <span>일자리분야</span>
-              </div>
-            </div>
-            <div style={{width:300, height:300, backgroundColor:'lightcyan', boxSizing:'border-box', padding:20, marginTop:'20px', borderRadius:'20px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-              <span style={{fontSize:20, wordSpacing:'-5px', fontWeight:700}}>쳥년 취창업 아카데미 연중 운영</span>
-              <span style={{}}>부산시</span>
-              <div style={{display:'flex', justifyContent:'space-between', boxSizing:'border-box', paddingLeft:'5px', paddingRight:'5px'}}>
-                <span>상시</span>
-                <span>일자리분야</span>
-              </div>
-            </div>
-            <div style={{width:300, height:300, backgroundColor:'lightcyan', boxSizing:'border-box', padding:20, marginTop:'20px', borderRadius:'20px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-              <span style={{fontSize:20, wordSpacing:'-5px', fontWeight:700}}>쳥년 취창업 아카데미 연중 운영</span>
-              <span style={{}}>부산시</span>
-              <div style={{display:'flex', justifyContent:'space-between', boxSizing:'border-box', paddingLeft:'5px', paddingRight:'5px'}}>
-                <span>상시</span>
-                <span>일자리분야</span>
-              </div>
-            </div>
+            <Policy {...example} />
+            <Policy {...example} />
+            <Policy {...example} />
+            <Policy {...example} />
             <span style={{fontSize:'44px', fontWeight:'bolder'}}>{`>`}</span>
           </div>
           </div>
@@ -109,30 +91,9 @@ export default  function Home() {
       <div style={{marginTop:'60px'}}>
         <span style={{fontSize:24, fontWeight:'bolder'}}>정책 검색 결과 <span style={{color:'blue', fontSize:40}}>189</span> 건</span>
         <div style={{display:'flex', gap:40}}>
-        <div style={{width:300, height:300, backgroundColor:'lightcyan', boxSizing:'border-box', padding:20, marginTop:'20px', borderRadius:'20px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-          <span style={{fontSize:20, wordSpacing:'-5px', fontWeight:700}}>쳥년 취창업 아카데미 연중 운영</span>
-          <span style={{}}>부산시</span>
-          <div style={{display:'flex', justifyContent:'space-between', boxSizing:'border-box', paddingLeft:'5px', paddingRight:'5px'}}>
-            <span>상시</span>
-            <span>일자리분야</span>
-          </div>
-        </div>
-        <div style={{width:300, height:300, backgroundColor:'lightcyan', boxSizing:'border-box', padding:20, marginTop:'20px', borderRadius:'20px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-          <span style={{fontSize:20, wordSpacing:'-5px', fontWeight:700}}>쳥년 취창업 아카데미 연중 운영</span>
-          <span style={{}}>부산시</span>
-          <div style={{display:'flex', justifyContent:'space-between', boxSizing:'border-box', paddingLeft:'5px', paddingRight:'5px'}}>
-            <span>상시</span>
-            <span>일자리분야</span>
-          </div>
-        </div>
-        <div style={{width:300, height:300, backgroundColor:'lightcyan', boxSizing:'border-box', padding:20, marginTop:'20px', borderRadius:'20px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-          <span style={{fontSize:20, wordSpacing:'-5px', fontWeight:700}}>쳥년 취창업 아카데미 연중 운영</span>
-          <span style={{}}>부산시</span>
-          <div style={{display:'flex', justifyContent:'space-between', boxSizing:'border-box', paddingLeft:'5px', paddingRight:'5px'}}>
-            <span>상시</span>
-            <span>일자리분야</span>
-          </div>
-        </div>
+          <Policy {...example} />
+          <Policy {...example} />
+          <Policy {...example} />
         </div>
       </div>
     </div>
