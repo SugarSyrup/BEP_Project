@@ -25,6 +25,23 @@ exports.getAsks = (req, res) => {
 	});
 };
 
+exports.getAsksTypeDetail = (req, res) => {
+	const typeName = req.query.typeName;
+	console.log(req);
+	const sql = `SELECT ask_id, t.type_id, t.name, title, created_at, recommendation
+  FROM asks
+  LEFT JOIN type t on asks.type_id = t.type_id
+	WHERE t.name = ?
+	ORDER BY ask_id DESC;`;
+
+	db.query(sql, [typeName], (err, results) => {
+		if (err) {
+			return res.status(500), json({ err: err.message });
+		}
+		res.json(results);
+	});
+};
+
 exports.getAsksDetail = (req, res) => {
 	const askID = req.params.askID;
 	const sql = `SELECT ask_id, writer_name, password, content

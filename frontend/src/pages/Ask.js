@@ -5,8 +5,9 @@ import axios from "axios";
 
 //신문고
 export default function Ask() {
-	const [uploadedQuestion, setUploadedQuestion] = useState([]);
 	const [questionsFromServer, setQuestionsFromServer] = useState([]);
+	const [uploadedQuestion, setUploadedQuestion] = useState([]);
+	const [allQuestions, setAllQuestions] = useState([]);
 
 	useEffect(() => {
 		axios
@@ -15,6 +16,7 @@ export default function Ask() {
 				axios.spread((response1, response2) => {
 					setQuestionsFromServer(response1.data);
 					setUploadedQuestion(response2.data);
+					setAllQuestions(response2.data);
 				})
 			)
 			.catch((error) => {
@@ -42,6 +44,40 @@ export default function Ask() {
 		setPage(0); // Reset the page when itemsPerPage changes
 	};
 
+	function handleNavClick(event) {
+		const navItems = document.querySelectorAll(".nav-link");
+		for (let item of navItems) {
+			item.classList.remove("active");
+		}
+		const newType = event.target;
+		newType.classList.add("active");
+
+		let typeName = newType.innerText;
+		getPageItems(typeName);
+	}
+
+	function getPageItems(typeName) {
+		if (typeName === "전체 보기") {
+			setUploadedQuestion(allQuestions);
+			setPage(0);
+		} else {
+			axios
+				.get("/api//asks/typeDetail", {
+					params: { typeName: typeName },
+				})
+				.then((response) => {
+					setUploadedQuestion(response.data);
+					setPage(0);
+				})
+				.catch((error) => {
+					console.error(
+						"There was an error fetching data from server",
+						error
+					);
+				});
+		}
+	}
+
 	async function handleRecommendation(row) {
 		try {
 			await axios.post(`/api/asks/${row.ask_id}/recommendation`, null, {
@@ -64,13 +100,18 @@ export default function Ask() {
 						className="nav-link active"
 						aria-current="page"
 						href="#"
+						onClick={handleNavClick}
 					>
 						전체 보기
 					</p>
 				</li>
 				{questionsFromServer.map((row) => (
 					<li className="nav-item" key={row.type_id}>
-						<p className="nav-link" value={row.type}>
+						<p
+							className="nav-link"
+							onClick={handleNavClick}
+							value={row.type}
+						>
 							{row.name}
 						</p>
 					</li>
@@ -138,9 +179,11 @@ export default function Ask() {
 						</thead>
 						<tbody>
 							{allQuestionsForPage[page] &&
-								allQuestionsForPage[page].map((row, index) => (
+								allQuestionsForPage[page].map((row) => (
 									<tr key={row.id}>
-										<th scope="row">{index + 1}</th>
+										<th scope="row">
+											{uploadedQuestion.indexOf(row) + 1}
+										</th>
 										<td>{row.name}</td>
 										<td
 											onClick={() =>

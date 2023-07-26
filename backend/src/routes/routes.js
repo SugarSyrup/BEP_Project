@@ -4,6 +4,7 @@ const controller = require("../controllers/controller");
 
 router.get("/type", controller.getType);
 router.get("/asks", controller.getAsks);
+router.get("/asks/typeDetail", controller.getAsksTypeDetail);
 router.get("/asks/:askID", controller.getAsksDetail);
 
 router.post("/asks/:askID/recommendation", controller.postAsksRecommendation);
