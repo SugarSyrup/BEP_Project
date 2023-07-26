@@ -91,3 +91,17 @@ exports.postAsks = (req, res) => {
 		}
 	);
 };
+
+//
+
+exports.getPolicy = (req, res) => {
+	const sql = `SELECT *
+	from policy`;
+
+	db.query(sql, (err, results) => {
+		if (err) {
+			return res.status(500), json({ err: err.message });
+		}
+		res.json(results);
+	});
+};
