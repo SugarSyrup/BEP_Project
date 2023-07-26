@@ -18,33 +18,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-// export default  function ({children}) {
-//   return (
-//     <Container fluid>
-//       <Navbar expand="lg" className="bg-body-tertiary" style={{backgroundColor:'black', position:'sticky'}}>
-//         <Container>
-//           <Navbar.Brand href="/" style={{fontSize:'2rem', fontWeight:'bold'}}>LOGO</Navbar.Brand>
-//           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//           <Navbar.Collapse id="basic-navbar-nav">
-//             <Nav className="me-auto">
-//               <Nav.Link href="/">Home</Nav.Link>
-//               <Nav.Link href="/ask">Link</Nav.Link>
-//             </Nav>
-//           </Navbar.Collapse>
-//         </Container>
-//       </Navbar>
-//       <Row>
-//         <footer>
-          
-//         </footer>
-//       </Row>
-//     </Container>
-//   );
-// }
-
-
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
+const navItems = ['Home', '신문고'];
 
 function Layout(props) {
   const { window, children } = props;
@@ -57,7 +32,7 @@ function Layout(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        Busan Employment Policy
+        <a href="/" style={{color:'white', textDecoration:'none', fontWeight:'bolder'}}>Busan Employment Policy</a>
       </Typography>
       <Divider />
       <List>
@@ -93,13 +68,15 @@ function Layout(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            <a href="/" style={{color:'white', textDecoration:'none', fontWeight:'bolder'}}>Busan Employment Policy</a>
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff' }}>
-                {item}
-              </Button>
+              <a href={item === 'Home' ? '/' : `ask`}>
+                <Button key={item} sx={{ color: '#fff' }} >
+                  {item}
+                </Button>
+              </a>
             ))}
           </Box>
         </Toolbar>
