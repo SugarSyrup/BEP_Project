@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/Ask.css";
+import axios from "axios";
 
 //신문고
 export default function Ask() {
-	const uploadedQuestion = Array.from({ length: 56 }, (_, index) => ({
-		id: index + 1,
-		type: `example_type_${index + 1}`,
-		title: `Example Title ${index + 1}`,
-		upload_date: "2023-07-19",
-		recommendation: Math.floor(Math.random() * 100),
-	}));
+	const [questionsFromServer, setQuestionsFromServer] = useState([]);
+	const [uploadedQuestion, setUploadedQuestion] = useState([]);
+	const [allQuestions, setAllQuestions] = useState([]);
+
+	useEffect(() => {
+		axios
+			.all([axios.get("/api/type"), axios.get("/api/asks")])
+			.then(
+				axios.spread((response1, response2) => {
+					setQuestionsFromServer(response1.data);
+					setUploadedQuestion(response2.data);
+					setAllQuestions(response2.data);
+				})
+			)
+			.catch((error) => {
+				console.error(
+					"There was an error fetching data from server",
+					error
+				);
+			});
+	}, []);
 
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(0);
@@ -29,9 +44,79 @@ export default function Ask() {
 		setPage(0); // Reset the page when itemsPerPage changes
 	};
 
+	function handleNavClick(event) {
+		const navItems = document.querySelectorAll(".nav-link");
+		for (let item of navItems) {
+			item.classList.remove("active");
+		}
+		const newType = event.target;
+		newType.classList.add("active");
+
+		let typeName = newType.innerText;
+		getPageItems(typeName);
+	}
+
+	function getPageItems(typeName) {
+		if (typeName === "전체 보기") {
+			setUploadedQuestion(allQuestions);
+			setPage(0);
+		} else {
+			axios
+				.get("/api//asks/typeDetail", {
+					params: { typeName: typeName },
+				})
+				.then((response) => {
+					setUploadedQuestion(response.data);
+					setPage(0);
+				})
+				.catch((error) => {
+					console.error(
+						"There was an error fetching data from server",
+						error
+					);
+				});
+		}
+	}
+
+	async function handleRecommendation(row) {
+		try {
+			await axios.post(`/api/asks/${row.ask_id}/recommendation`, null, {
+				params: {
+					recommendation: row.recommendation,
+				},
+			});
+		} catch (error) {
+			console.error("Error sending recommendation:", error);
+		}
+	}
+
 	return (
 		<div className="page-wrapper">
 			<div id="page-title">신문고</div>
+
+			<ul className="nav nav-tabs">
+				<li className="nav-item">
+					<p
+						className="nav-link active"
+						aria-current="page"
+						href="#"
+						onClick={handleNavClick}
+					>
+						전체 보기
+					</p>
+				</li>
+				{questionsFromServer.map((row) => (
+					<li className="nav-item" key={row.type_id}>
+						<p
+							className="nav-link"
+							onClick={handleNavClick}
+							value={row.type}
+						>
+							{row.name}
+						</p>
+					</li>
+				))}
+			</ul>
 
 			<div>
 				<div id="table-header">
@@ -47,13 +132,18 @@ export default function Ask() {
 						<select
 							className="form-select"
 							id="table-select"
-							aria-label="Default select example"
 							value={itemsPerPage}
 							onChange={handleSelectChange}
 						>
-							<option value="10">10개</option>
-							<option value="15">15개</option>
-							<option value="30">30개</option>
+							<option key="10" value="10">
+								10개
+							</option>
+							<option key="15" value="15">
+								15개
+							</option>
+							<option key="30" value="30">
+								30개
+							</option>
 						</select>
 
 						<button
@@ -83,27 +173,35 @@ export default function Ask() {
 									등록일
 								</th>
 								<th valign="middle" scope="col">
-									추천수
+									조회수
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							{allQuestionsForPage[page].map((row) => (
-								<tr key={row.id}>
-									<th scope="row">{row.id}</th>
-									<td>{row.type}</td>
-									<td>
-										<Link
-											to={`/ask/${row.id}`}
-											state={{ row }}
+							{allQuestionsForPage[page] &&
+								allQuestionsForPage[page].map((row) => (
+									<tr key={row.id}>
+										<th scope="row">
+											{uploadedQuestion.indexOf(row) + 1}
+										</th>
+										<td>{row.name}</td>
+										<td
+											onClick={() =>
+												handleRecommendation(row)
+											}
 										>
-											{row.title}
-										</Link>
-									</td>
-									<td>{row.upload_date}</td>
-									<td>{row.recommendation}</td>
-								</tr>
-							))}
+											<Link
+												className="link-no-underline"
+												to={`/ask/${row.ask_id}`}
+												state={{ row }}
+											>
+												{row.title}
+											</Link>
+										</td>
+										<td>{row.created_at.slice(0, 10)}</td>
+										<td>{row.recommendation}</td>
+									</tr>
+								))}
 						</tbody>
 					</table>
 				</div>
