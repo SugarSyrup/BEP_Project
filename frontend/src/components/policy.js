@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 function Policy(props) {
-    const {name, location, date, tag} = props;
+    const {name, location, date, tag, currentref} = props;
     
     return(
-    <StyledDiv>
+    <StyledDiv ref={currentref}>
         <span class="title">{name}</span>
         <span>{location}</span>
         <div class="else">
@@ -25,9 +25,14 @@ const StyledDiv = styled.div`
     border-radius:20px;
     background-color: lightcyan;
 
+    flex-shrink:0;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+
+    transition:margin-left .5s ease-in-out;
+    
+    transition:margin-right .5s ease-in-out;
 
     .title{
         font-size:20px;

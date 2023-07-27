@@ -4,38 +4,33 @@ import {useForm} from 'react-hook-form';
 
 import Policy from "../components/Policy";
 import Checkbox from "../components/Checkbox";
+import Carousel from "../components/Carousel";
+
+
+const exampleData = {
+  id: '1',
+  name: '청년 취창업 아카데미 연중 운영',
+  location: '부산시',
+  date: '상시',
+  tag: '일자리분야'
+}
 
 //정책 소개 메인 페이지
 export default  function Home() {
-  const {register, handleSubmit, watch, formState:{errors}} = useForm();
-  const [bgColor, setBgcolor] = useState('white');
+  const {register, handleSubmit, formState:{errors}} = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
   }
 
-  const example = {
-    id: '1',
-    name: '청년 취창업 아카데미 연중 운영',
-    location: '부산시',
-    date: '상시',
-    tag: '일자리분야'
-  }
-
   return (
     <div>
       <Container onSubmit={handleSubmit(onSubmit)}>
+
         <div style={{marginBottom:'40px', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
           <span style={{fontSize:24, fontWeight:'bolder'}}>최근 정책 알림</span>
-          <div style={{display:'flex', gap:40, marginBottom:'40px', alignItems:'center'}}>
-            <span style={{fontSize:'44px', fontWeight:'bolder'}}>{`<`}</span>
-            <Policy {...example} />
-            <Policy {...example} />
-            <Policy {...example} />
-            <Policy {...example} />
-            <span style={{fontSize:'44px', fontWeight:'bolder'}}>{`>`}</span>
-          </div>
-          </div>
+          <Carousel />
+        </div>
 
           <span style={{fontSize:32, fontWeight:'bolder', marginBottom:20}}>정책 검색</span>
           <div style={{display:'flex', flexDirection:'column', justifyContent:'center', boxSizing:'border-box', padding:20, backgroundColor:'#f8f8f8', border:'1px solid #ccc'}}>
@@ -70,9 +65,9 @@ export default  function Home() {
       <div style={{marginTop:'60px'}}>
         <span style={{fontSize:24, fontWeight:'bolder'}}>정책 검색 결과 <span style={{color:'blue', fontSize:40}}>189</span> 건</span>
         <div style={{display:'flex', gap:40}}>
-          <Policy {...example} />
-          <Policy {...example} />
-          <Policy {...example} />
+          <Policy {...exampleData} />
+          <Policy {...exampleData} />
+          <Policy {...exampleData} />
         </div>
       </div>
     </div>
