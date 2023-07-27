@@ -31,8 +31,6 @@ const StyledDiv = styled.div`
     justify-content:space-between;
 
     transition:margin-left .5s ease-in-out;
-    
-    transition:margin-right .5s ease-in-out;
 
     .title{
         font-size:20px;

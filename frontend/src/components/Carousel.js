@@ -18,7 +18,7 @@ function Carousel(props) {
     return(
         <div style={{display:'flex', gap:40, marginBottom:'40px', alignItems:'center'}}>
             <CarouselButton onClick={() => {
-                const currentPos = pos - 340;
+                const currentPos = pos - 330;
                 carouselRef.current.style.marginLeft = `${currentPos}px`;
                 setPos(currentPos);
             }}>{`<`}</CarouselButton>
@@ -32,7 +32,7 @@ function Carousel(props) {
                     <Policy {...exampleData} />
             </CarouselWrapper>
             <CarouselButton onClick={() => {
-                const currentPos = pos - 340;
+                const currentPos = pos + 330;
                 carouselRef.current.style.marginLeft = `${currentPos}px`;
                 setPos(currentPos);
             }}>{`>`}</CarouselButton>
@@ -41,8 +41,8 @@ function Carousel(props) {
 }
 
 const CarouselWrapper = styled.div`
-    width:70vw;
-    height:300px;
+    width:72vw;
+    height:320px;
 
     display:flex;
     gap:30px;
