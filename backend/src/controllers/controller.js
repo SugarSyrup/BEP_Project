@@ -105,3 +105,19 @@ exports.getPolicy = (req, res) => {
 		res.json(results);
 	});
 };
+
+exports.getPolicyDetail = (req, res) => {
+	const policy_id = req.params.id;
+	const sql = `SELECT *
+	FROM policy
+	left outer join type t on t.type_id = policy.type_id
+	where policy_id = ?;`;
+
+	db.query(sql, [policy_id], (err, results) => {
+		if (err) {
+			return res.status(500), json({ err: err.message });
+		}
+		res.json(results);
+	})
+	
+}
