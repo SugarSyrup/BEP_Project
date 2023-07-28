@@ -1,57 +1,50 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { useParams } from 'react-router-dom';
+import axios from "axios";
+
+import Comments from "../components/Comments";
+import ContentRow from "../components/ContentRow";
 
 //정책 소개 상세 페이지
 export default  function Detail() {
   const {id} = useParams();
+  const [data, setData] = useState(0);
 
   useEffect(() => {
-
+    
+    axios.get(`/api/policy/${id}`)
+      .then((response)=> {
+        console.log(response.data[0])
+        setData(response.data[0]);
+      })
   }, [])
-
+  
   return (
     <DetailWrapper>
-        <span className="header">청년일자리지원사업</span>
-        <ContentWrapper >
-          <div className="content">
-            <span className="type">정책분야</span>
-            <span className="data">일자리분야</span>
-          </div>
-          <div className="content">
-            <span className="type">사업 운영 기간</span>
-            <span className="data">2023.04.01. ~ 2023.12.31.</span>
-          </div>
-          <div className="content">
-            <span className="type">사업 신청 기간</span>
-            <span className="data">상시</span>
-          </div>
-          <div className="content">
-            <span className="type">지원 규모(명)</span>
-            <span className="data">40명 (참여기업별 최대 5인 이하까지 지원 가능)</span>
-          </div>
-        </ContentWrapper>
-        <ContentWrapper>
-          <span style={{fontSize:36, fontWeight:'bolder', color:'black'}}>신청자격</span>
-          
-          <div className="content">
-            <span className="type">연령</span>
-            <span className="data">만 15세 ~ 34세</span>
-          </div>
-          
-          <div className="content">
-            <span className="type">거주지 및 소득</span>
-            <span className="data">청년을 정규직으로 채용하여 고용노동부 청년내일채움공제에 가입한 전주시 소재 상시근로자 5인 이상 중소기업 중 제조업체</span>
-          </div>
-          
-          <div className="content">
-            <span className="type">취업 상태</span>
-            <span className="data">미취업자</span>
-          </div>
-        </ContentWrapper>
-        <div style={{marginTop:'70px', width:'70%'}}>
-          <span style={{fontSize:36, fontWeight:'bolder', color:'black'}}>후기</span>
-        </div>
+        <span className="header">{data === 0 ? 'Loading...' : data.title}</span>
+        {
+          data !== 0 &&
+          <>
+            <span className="introduction" style={{marginTop:20}}>{data.introduction}</span>
+            <ContentWrapper >
+              {data.name && <ContentRow title="정책분야" data={data.name} />}
+              {data.management && <ContentRow title="지원사" data={data.management} />}
+              {data.organizer && <ContentRow title="주관" data={data.organizer} />}
+              {data.support_size && <ContentRow title="지원 규모(명)" data={data.support_size} />}
+              {data.support_detail && <ContentRow title="지원 규모(상세)" data={data.support_detail} />}
+            </ContentWrapper>
+            <ContentWrapper>
+              <span style={{fontSize:36, fontWeight:'bolder', color:'black', display:'block', marginBottom:'30px'}}>신청자격</span>
+
+              {data.target_min && data.target_max && <ContentRow title="연령" data={`만 {data.target_min} ~ {data.target_max}세`} />}
+              {data.education && <ContentRow title="학력" data={data.education} />}
+              {data.target_employment && <ContentRow title="취업 상태" data={data.target_employment} />}
+              {data.target_restriction && <ContentRow title="제한 사항" data={data.target_restriction} />}
+            </ContentWrapper>
+          </>
+        }
+        <Comments />
     </DetailWrapper>
   );
 }
@@ -66,28 +59,10 @@ const DetailWrapper = styled.div`
   .header {
     font-size:36px;
     font-weight:bolder;
+    margin-top:40px;
   }
 `
-
 const ContentWrapper = styled.div`
   margin-top:60px;
-  width:70%;
-
-  .content {
-    display:flex;
-    align-items:center;
-    margin-bottom:20px;
-
-    .type {
-      display:inline-block;
-      font-size:24px;
-      font-weight:600;
-      width:200px;
-    }
-
-    .data {
-      font-size:20px;
-      color:grey;
-    }
-  }
-`
+  width:60%;
+`;

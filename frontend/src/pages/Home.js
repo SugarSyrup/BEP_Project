@@ -5,34 +5,14 @@ import axios from "axios";
 
 import Policy from "../components/Policy";
 import Checkbox from "../components/Checkbox";
-import Carousel from "../components/Carousel";
-
-
-const exampleData = {
-  id: '1',
-  name: '청년 취창업 아카데미 연중 운영',
-  location: '부산시',
-  date: '상시',
-  tag: '일자리분야'
-}
 
 //정책 소개 메인 페이지
 export default function Home() {
 	const {
 		register,
 		handleSubmit,
-		watch,
-		formState: { errors },
 	} = useForm();
-	const [bgColor, setBgcolor] = useState("white");
 
-	const example = {
-		id: "1",
-		name: "청년 취창업 아카데미 연중 운영",
-		location: "부산시",
-		date: "상시",
-		tag: "일자리분야",
-	};
 
 	const [questionsFromServer, setQuestionsFromServer] = useState([]);
 	const [uploadedPolicy, setUploadedPolicy] = useState([]);
@@ -100,14 +80,15 @@ export default function Home() {
 						{allPolicys &&
 							allPolicys.slice(0, 4).map((row) => {
 								return (
-									<Policy
-										key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
-										title={row.title}
-										name={row.name}
-										introduction={row.introduction} // 오타 수정: intoduction -> introduction
-										organizer={row.organizer}
-										management={row.management}
-									/>
+									<a key={row.policy_id} href={`/detail/${row.policy_id}`} style={{textDecoration:'none', color:'black'}}>
+										<Policy
+											title={row.title}
+											name={row.name}
+											introduction={row.introduction} // 오타 수정: intoduction -> introduction
+											organizer={row.organizer}
+											management={row.management}
+										/>
+									</a>
 								);
 							})}
 					</div>
@@ -200,7 +181,6 @@ export default function Home() {
 
 					<div
 						style={{
-							display: "flex",
 							flexDirection: "row",
 							boxSizing: "border-box",
 							marginBottom: 10,
@@ -278,14 +258,15 @@ export default function Home() {
 					{allPolicyForPage[page] &&
 						allPolicyForPage[page].map((row) => {
 							return (
-								<Policy
-									key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
-									title={row.title}
-									name={row.name}
-									introduction={row.introduction} // 오타 수정: intoduction -> introduction
-									organizer={row.organizer}
-									management={row.management}
-								/>
+								<a key={row.policy_id} href={`/detail/${row.policy_id}`} style={{textDecoration:'none', color:'black'}}>
+									<Policy 
+										title={row.title}
+										name={row.name}
+										introduction={row.introduction} // 오타 수정: intoduction -> introduction
+										organizer={row.organizer}
+										management={row.management}
+									/>
+								</a>
 							);
 						})}
 				</div>
