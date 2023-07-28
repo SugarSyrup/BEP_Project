@@ -27,7 +27,6 @@ exports.getAsks = (req, res) => {
 
 exports.getAsksTypeDetail = (req, res) => {
 	const typeName = req.query.typeName;
-	console.log(req);
 	const sql = `SELECT ask_id, t.type_id, t.name, title, created_at, recommendation
   FROM asks
   LEFT JOIN type t on asks.type_id = t.type_id
@@ -90,4 +89,19 @@ exports.postAsks = (req, res) => {
 			res.json(results);
 		}
 	);
+};
+
+//
+
+exports.getPolicy = (req, res) => {
+	const sql = `SELECT *
+	from policy
+	left outer join type t on t.type_id = policy.type_id;`;
+
+	db.query(sql, (err, results) => {
+		if (err) {
+			return res.status(500), json({ err: err.message });
+		}
+		res.json(results);
+	});
 };
