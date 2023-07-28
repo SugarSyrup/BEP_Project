@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "../css/Ask.css";
+import "../style/Ask.css";
 import axios from "axios";
 
 export default function AskDetail() {
