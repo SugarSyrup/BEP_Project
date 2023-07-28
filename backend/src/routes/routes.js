@@ -16,5 +16,6 @@ router.post("/asks/write", controller.postAsks);
 //
 
 router.get("/policy", controller.getPolicy);
+router.get("/policy/detail", controller.getPolicyDetail);
 
 module.exports = router;

@@ -105,3 +105,43 @@ exports.getPolicy = (req, res) => {
 		res.json(results);
 	});
 };
+
+exports.getPolicyDetail = (req, res) => {
+	const keywords = req.query.condition.keywords;
+	const age = req.query.condition.age;
+	const type = req.query.condition.type
+		.map((t) => `'${t.trim()}'`)
+		.join(", ");
+
+	let age_condition = ` policy.target_min <= ${age}
+	AND policy.target_max >= ${age} AND`;
+	let type_condition = ` t.name IN (${type}) AND`;
+	let keywords_condition = `${keywords
+		.map((keywords) => ` policy.title LIKE '%${keywords.trim()}%'`)
+		.join(" OR")}`;
+
+	if (age === "") {
+		age_condition = ``;
+	}
+
+	if (keywords === "") {
+		keywords_condition = ``;
+	}
+
+	const sql =
+		`SELECT *
+	from policy
+	left outer join type t on t.type_id = policy.type_id
+	WHERE` +
+		age_condition +
+		type_condition +
+		keywords_condition;
+
+	console.log(sql);
+	db.query(sql, (err, results) => {
+		if (err) {
+			return res.status(500).json({ err: err.message });
+		}
+		res.json(results);
+	});
+};
