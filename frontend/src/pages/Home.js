@@ -46,16 +46,30 @@ export default function Home() {
 			});
 	}, []);
 
+	const [itemsPerPage, setItemsPerPage] = useState(30);
+	const [page, setPage] = useState(0);
+
+	const allPolicyForPage = Array.from(
+		{ length: Math.ceil(uploadedPolicy.length / itemsPerPage) },
+		(_, index) =>
+			uploadedPolicy.slice(
+				index * itemsPerPage,
+				(index + 1) * itemsPerPage
+			)
+	);
+
 	const onSubmit = (data) => {
 		console.log(data);
 	};
+
+	console.log(questionsFromServer, allPolicys);
 
 	return (
 		<div>
 			<Container onSubmit={handleSubmit(onSubmit)}>
 				<div
 					style={{
-						marginBottom: "40px",
+						marginBottom: "20px",
 						display: "flex",
 						flexDirection: "column",
 						justifyContent: "center",
@@ -68,21 +82,24 @@ export default function Home() {
 					<div
 						style={{
 							display: "flex",
-							gap: 40,
-							marginBottom: "40px",
+							gap: 50,
+							margin: "30px 20px",
 							alignItems: "center",
 						}}
 					>
-						<span
-							style={{ fontSize: "44px", fontWeight: "bolder" }}
-						>{`<`}</span>
-						<Policy {...example} />
-						<Policy {...example} />
-						<Policy {...example} />
-						<Policy {...example} />
-						<span
-							style={{ fontSize: "44px", fontWeight: "bolder" }}
-						>{`>`}</span>
+						{allPolicys &&
+							allPolicys.slice(0, 4).map((row) => {
+								return (
+									<Policy
+										key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
+										title={row.title}
+										name={row.name}
+										introduction={row.introduction} // 오타 수정: intoduction -> introduction
+										organizer={row.organizer}
+										management={row.management}
+									/>
+								);
+							})}
 					</div>
 				</div>
 
@@ -158,27 +175,17 @@ export default function Home() {
 						>
 							정책 분야
 						</label>
-
-						<Checkbox
-							name="정책분야1"
-							id="1"
-							register={register("check1")}
-						/>
-						<Checkbox
-							name="정책분야2"
-							id="2"
-							register={register("check2")}
-						/>
-						<Checkbox
-							name="정책분야3"
-							id="3"
-							register={register("check3")}
-						/>
-						<Checkbox
-							name="정책분야4"
-							id="4"
-							register={register("check4")}
-						/>
+						{questionsFromServer &&
+							questionsFromServer.map((row) => {
+								return (
+									<Checkbox
+										id={row.id}
+										key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
+										name={row.name}
+										register={register(`check${row.id}`)}
+									/>
+								);
+							})}
 					</div>
 
 					<div
@@ -245,16 +252,83 @@ export default function Home() {
 			<div style={{ marginTop: "60px" }}>
 				<span style={{ fontSize: 24, fontWeight: "bolder" }}>
 					정책 검색 결과{" "}
-					<span style={{ color: "blue", fontSize: 40 }}>
+					<span style={{ color: "blue", fontSize: 30 }}>
 						{uploadedPolicy.length}
-					</span>{" "}
-					건
+					</span>
+					{"   "}건
 				</span>
-				<div style={{ display: "flex", gap: 40 }}>
-					<Policy {...example} />
-					<Policy {...example} />
-					<Policy {...example} />
+				<div
+					style={{
+						display: "inline-flex",
+						alignContent: "flex-start",
+						flexWrap: "wrap",
+						justifyContent: "center",
+					}}
+				>
+					{allPolicyForPage[page] &&
+						allPolicyForPage[page].map((row) => {
+							return (
+								<Policy
+									key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
+									title={row.title}
+									name={row.name}
+									introduction={row.introduction} // 오타 수정: intoduction -> introduction
+									organizer={row.organizer}
+									management={row.management}
+								/>
+							);
+						})}
 				</div>
+			</div>
+
+			<div id="table-footer">
+				<nav aria-label="Page navigation example">
+					<ul className="pagination">
+						<li className="page-item">
+							<p
+								className="page-link"
+								onClick={() => {
+									if (page > 0) {
+										setPage(page - 1);
+									} else {
+										alert("첫 페이지 입니다.");
+									}
+								}}
+							>
+								Previous
+							</p>
+						</li>
+						{Array.from(
+							{ length: allPolicyForPage.length },
+							(_, index) => (
+								<li key={index} className="page-item">
+									<p
+										className={`page-link${
+											index === page ? " active" : ""
+										}`}
+										onClick={() => setPage(index)}
+									>
+										{index + 1}
+									</p>
+								</li>
+							)
+						)}
+						<li className="page-item">
+							<p
+								className="page-link"
+								onClick={() => {
+									if (page < allPolicyForPage.length - 1) {
+										setPage(page + 1);
+									} else {
+										alert("마지막 페이지 입니다.");
+									}
+								}}
+							>
+								Next
+							</p>
+						</li>
+					</ul>
+				</nav>
 			</div>
 		</div>
 	);
