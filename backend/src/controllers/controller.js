@@ -96,7 +96,8 @@ exports.postAsks = (req, res) => {
 
 exports.getPolicy = (req, res) => {
 	const sql = `SELECT *
-	from policy`;
+	from policy
+	left outer join type t on t.type_id = policy.type_id;`;
 
 	db.query(sql, (err, results) => {
 		if (err) {
