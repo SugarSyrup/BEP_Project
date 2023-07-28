@@ -16,14 +16,6 @@ export default function Home() {
 	} = useForm();
 	const [bgColor, setBgcolor] = useState("white");
 
-	const example = {
-		id: "1",
-		name: "청년 취창업 아카데미 연중 운영",
-		location: "부산시",
-		date: "상시",
-		tag: "일자리분야",
-	};
-
 	const [questionsFromServer, setQuestionsFromServer] = useState([]);
 	const [uploadedPolicy, setUploadedPolicy] = useState([]);
 	const [allPolicys, setAllPolicys] = useState([]);
@@ -59,10 +51,33 @@ export default function Home() {
 	);
 
 	const onSubmit = (data) => {
-		console.log(data);
-	};
+		const condition = {};
 
-	console.log(questionsFromServer, allPolicys);
+		condition.keywords = data.policyName.split(",");
+		condition.age = data.age;
+		condition.type = Object.keys(data).filter((key) => data[key] === true);
+
+		console.log(condition);
+
+		if (condition.type.length === 0) {
+			alert("하나 이상의 정책 분야를 선택해주세요.");
+		} else {
+			axios
+				.get("/api/policy/detail", {
+					params: { condition: condition },
+				})
+				.then((response) => {
+					setUploadedPolicy(response.data);
+					setPage(0);
+				})
+				.catch((error) => {
+					console.error(
+						"There was an error fetching data from server",
+						error
+					);
+				});
+		}
+	};
 
 	return (
 		<div>
@@ -175,14 +190,14 @@ export default function Home() {
 						>
 							정책 분야
 						</label>
-						{questionsFromServer &&
+						{questionsFromServer.length > 0 &&
 							questionsFromServer.map((row) => {
 								return (
 									<Checkbox
 										id={row.id}
 										key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
 										name={row.name}
-										register={register(`check${row.id}`)}
+										register={register}
 									/>
 								);
 							})}
@@ -243,6 +258,7 @@ export default function Home() {
 								padding: "10px 20px",
 								borderRadius: "10px",
 							}}
+							onClick={handleSubmit(onSubmit)}
 						>
 							검색
 						</button>

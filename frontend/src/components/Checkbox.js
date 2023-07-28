@@ -3,11 +3,8 @@ import styled from "styled-components";
 
 function Checkbox({ name, id, register }) {
 	const [bgColor, setBgcolor] = useState("white");
-
 	const onCheckboxClick = (e) => {
-		console.log(e.target.checked);
 		if (e.target.checked) {
-			console.log("1");
 			setBgcolor("aliceblue");
 		} else {
 			setBgcolor("white");
@@ -21,7 +18,7 @@ function Checkbox({ name, id, register }) {
 			style={{ backgroundColor: bgColor }}
 		>
 			{name}
-			<input {...register} type="checkbox" id={id} />
+			<input {...register(name)} type="checkbox" id={id} />
 		</StyledLabel>
 	);
 }
