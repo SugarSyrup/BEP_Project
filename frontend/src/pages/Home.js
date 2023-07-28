@@ -266,19 +266,26 @@ export default function Home() {
 				</div>
 			</Container>
 			<div style={{ marginTop: "60px" }}>
-				<span style={{ fontSize: 24, fontWeight: "bolder" }}>
-					정책 검색 결과{" "}
-					<span style={{ color: "blue", fontSize: 30 }}>
-						{uploadedPolicy.length}
+				<div style={{ width: "100%" }}>
+					<span
+						style={{
+							fontSize: 24,
+							fontWeight: "bolder",
+						}}
+					>
+						정책 검색 결과{" "}
+						<span style={{ color: "blue", fontSize: 30 }}>
+							{uploadedPolicy.length}
+						</span>
+						{"   "}건
 					</span>
-					{"   "}건
-				</span>
+				</div>
 				<div
 					style={{
 						display: "inline-flex",
 						alignContent: "flex-start",
 						flexWrap: "wrap",
-						justifyContent: "center",
+						justifyContent: "left",
 					}}
 				>
 					{allPolicyForPage[page] &&
