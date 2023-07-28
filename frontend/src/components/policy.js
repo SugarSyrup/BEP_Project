@@ -1,50 +1,59 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 function Policy(props) {
-    const {name, location, date, tag, currentref} = props;
-    
-    return(
-    <StyledDiv ref={currentref}>
-        <span class="title">{name}</span>
-        <span>{location}</span>
-        <div class="else">
-            <span>{date}</span>
-            <span>{tag}</span>
-        </div>
-    </StyledDiv>
-    )
+	const { title, name, introduction, organizer, management } = props;
+
+	return (
+		<StyledDiv>
+			<span class="title">{title}</span>
+			<span id="type">{name}</span>
+			<div class="else">
+				<span>주관 : {organizer}</span>
+				<span>운영 : {management}</span>
+			</div>
+		</StyledDiv>
+	);
 }
 
 const StyledDiv = styled.div`
-    box-sizing: border-box;
-    
-    width: 300px;
-    height: 300px;
-    padding: 20px;
-    margin-top:20px;
-    border-radius:20px;
-    background-color: lightcyan;
+	box-sizing: border-box;
 
-    flex-shrink:0;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+	width: 300px;
+	height: 300px;
+	padding: 20px;
+	margin: 15px;
+	border: 1px solid lightgrey;
+	border-radius: 20px;
+	background-color: aliceblue;
 
-    transition:margin-left .5s ease-in-out;
+	display: flex;
+	position: relative;
+	flex-direction: column;
 
-    .title{
-        font-size:20px;
-        word-spacing:-5px;
-        font-weight:700px;
-    }
+	.title {
+		font-size: 25px;
+		word-spacing: -5px;
+		font-weight: 800;
+	}
 
-    .else {
-        display:flex;
-        justify-content:space-between;
-        box-sizing:border-box;
-        padding-left:5px;
-        padding-right:5px;
-    }
-`
+	#type {
+		background-color: gray;
+		color: white;
+		padding-left: 10px;
+		width: 78px;
+		margin-top: 5px;
+	}
+
+	.else {
+		display: flex;
+		align-content: flex-end;
+		font-size: 13px;
+		flex-direction: column;
+		box-sizing: border-box;
+		position: absolute;
+		margin-bottom: 20px;
+		bottom: 0;
+	}
+`;
 
 export default Policy;

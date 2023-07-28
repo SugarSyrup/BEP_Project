@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../css/Ask.css";
+import "../style/Ask.css";
 import axios from "axios";
 
 //신문고
