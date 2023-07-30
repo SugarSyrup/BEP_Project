@@ -118,6 +118,39 @@ exports.getPolicyDetail = (req, res) => {
 			return res.status(500), json({ err: err.message });
 		}
 		res.json(results);
-	})
-	
+	})	
 }
+
+exports.getComments = (req, res) => {
+	const policy_id = req.params.id;
+	const sql = `SELECT *
+	from policy_comment
+	where policy_id = ?;`;
+
+	db.query(sql, [policy_id],(err, results) => {
+		if (err) {
+			return res.status(500), json({ err: err.message });
+		}
+		res.json(results);
+	});
+}
+
+exports.postComment = (req, res) => {
+	const policy_id = req.params.id;
+	const writer_name = req.body.writer_name;
+	const password = req.body.password;
+	const content = req.body.comment;
+	const sql = `insert into pollicy_comment (policy_id, writer_name, password, content)
+	values (?, ?, ?, ?);`;
+
+	db.query(
+		sql,
+		[policy_id, writer_name, password, content],
+		(err, results) => {
+			if (err) {
+				return res.status(500), json({ err: err.message });
+			}
+			res.json(results);
+		}
+	);
+};
