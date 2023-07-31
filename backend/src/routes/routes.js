@@ -13,6 +13,10 @@ router.get("/asks/:askID", controller.getAsksDetail);
 router.post("/asks/:askID/recommendation", controller.postAsksRecommendation);
 router.post("/asks/write", controller.postAsks);
 
+router.get("/asks/info", controller.getAsksInfo);
+router.post("/asks/info/delete", controller.postAsksDelete);
+router.post("/asks/info/modify", controller.postAsksModify);
+
 //
 
 router.get("/policy/detail", controller.getPolicyDetail);

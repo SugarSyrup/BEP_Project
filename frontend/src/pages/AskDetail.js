@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../style/Ask.css";
 import axios from "axios";
+import ModalComponent from "../components/Modal";
 
 export default function AskDetail() {
 	const location = useLocation();
@@ -25,6 +26,23 @@ export default function AskDetail() {
 			});
 	}, [data.ask_id]);
 
+	const [deleteModalShow, setDeleteModalShow] = useState(false);
+	const [modifyModalShow, setModifyModalShow] = useState(false);
+
+	const handleDeleteModalClose = () => {
+		setDeleteModalShow(false);
+	};
+	const handleDeleteModalShow = () => {
+		setDeleteModalShow(true);
+	};
+
+	const handleModifyModalClose = () => {
+		setModifyModalShow(false);
+	};
+	const handleModifyeModalShow = () => {
+		setModifyModalShow(true);
+	};
+
 	return (
 		<div className="page-wrapper">
 			<div id="page-title">신문고 상세 내용</div>
@@ -45,7 +63,7 @@ export default function AskDetail() {
 							<td className="table-light">작성자</td>
 							<td>
 								{detailData
-									? detailData.writer_name
+									? detailData.writer_name.slice(0, 1) + "**"
 									: "Loading..."}
 							</td>
 							<td className="table-light">비밀번호</td>
@@ -63,6 +81,41 @@ export default function AskDetail() {
 			<div className="content-body">
 				<div id="content">
 					{detailData ? detailData.content : "Loading..."}
+				</div>
+				<div id="button-wrapper">
+					<button
+						type="button"
+						className="btn btn-secondary ask-detail-button"
+						onClick={handleModifyeModalShow}
+					>
+						글 수정
+					</button>
+
+					<ModalComponent
+						show={modifyModalShow}
+						onClose={() => handleModifyModalClose(false)}
+						data={[data, detailData]}
+						type="수정"
+						modalTitle="작성하신 글을 수정하시겠습니까?"
+						modalBody="수정을 희망하시면 작성자명과 비밀번호를 입력해주세요."
+					/>
+
+					<button
+						type="button"
+						className="btn btn-secondary ask-detail-button"
+						onClick={handleDeleteModalShow}
+					>
+						글 삭제
+					</button>
+
+					<ModalComponent
+						show={deleteModalShow}
+						onClose={() => handleDeleteModalClose(false)}
+						data={[data, detailData]}
+						type="삭제"
+						modalTitle="작성하신 글을 삭제하시겠습니까?"
+						modalBody="삭제를 희망하시면 작성자명과 비밀번호를 입력해주세요."
+					/>
 				</div>
 			</div>
 
