@@ -1,121 +1,127 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { styled } from 'styled-components';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { styled } from "styled-components";
 
 import { AiOutlineHeart } from "react-icons/ai";
 
 function Comments(props) {
-  const {id} = useParams();
-  const [comments, setComments] = useState([]);
+	const { id } = useParams();
+	const [comments, setComments] = useState([]);
 
-  useEffect(() => {
-    axios.get(`/api/policy/${id}/comment`)
-      .then((response) => {
-        console.log(response.data);
-        setComments(response.data);
-      })
-  },[])
+	useEffect(() => {
+		getComments();
+	}, []);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-    const {writer, password, comment} = data;
+	function getComments() {
+		axios.get(`/api/policy/${id}/getComment`).then((response) => {
+			setComments(response.data);
+		});
+	}
 
-    axios.post(`/api/policy/${id}/comment`, {
-      "writer_name": writer,
-      "password" : password,
-      "comment" : comment,
-    })
-  }
+	const onSubmit = (e) => {
+		e.preventDefault();
 
-  return (
-    <div style={{marginTop:'70px', width:'60%'}}>
-      <span style={{fontSize:36, fontWeight:'bolder', color:'black'}}>후기</span>
+		const formData = new FormData(e.currentTarget);
+		const data = Object.fromEntries(formData);
 
-      <CommentForm onSubmit={onSubmit} id="commentForm">
-        <label>이름 : </label>
-        <input type="text" name="wrtier" style={{marginLeft:'10px', marginRight:'60px'}} />
-        <label>비밀번호 : </label>
-        <input type="password" name="password" style={{marginLeft:'10px'}} />
-        <div className="content">
-          <textarea type="text" name="comment" form="commentForm" />
-					<button>전송</button>
-        </div>
-      </CommentForm>
+		axios
+			.post(`/api/policy/${id}/postComment`, data)
+			.then(window.location.reload());
+	};
 
-      {
-        comments.map((comment) => {
-          return(
-            <CommentContainer key={comment.policy_comment_id} >
-              <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
-                <span style={{fontWeight:'bolder', fontSize:'18px'}}>{comment.writer_name}</span>
-                <span style={{marginLeft:'5px'}}>{comment.content}</span>
-              </div>
-              <div style={{width:'40px', height:'20px',display:'flex', justifyContent:'space-between',alignItems:'center'}}>
-                <span style={{fontSize:'20px'}}><AiOutlineHeart /></span>
-                <span style={{marginRight:'10px', marginTop:'4px'}}>{comment.recommendation}</span>
-              </div>
-            </CommentContainer>
-          )
-        })
-      }
-    </div>
-  )
+	return (
+		<div style={{ marginTop: "70px", width: "60%" }}>
+			<span
+				style={{ fontSize: 36, fontWeight: "bolder", color: "black" }}
+			>
+				후기
+			</span>
+
+			<StyledBootstrapForm
+				onSubmit={onSubmit}
+				className="mt-3 p-4 bg-light border rounded"
+			>
+				<div className="mb-3 d-flex justify-content-between">
+					<label className="form-label">이름 : </label>
+					<input
+						type="text"
+						name="writer"
+						className="form-control"
+					/>
+					<label className="form-label ml-3">비밀번호 : </label>
+					<input
+						type="password"
+						name="password"
+						className="form-control"
+					/>
+				</div>
+				<div className="mb-3">
+					<textarea
+						type="text"
+						name="comment"
+						id="content-box"
+						className="form-control"
+					/>
+				</div>
+				<button className="btn btn-primary">전송</button>
+			</StyledBootstrapForm>
+
+			{comments.map((comment) => {
+				return (
+					<div
+						key={comment.policy_comment_id}
+						className="card mb-3"
+						style={{
+							marginTop: "25px",
+						}}
+					>
+						<div className="card-body">
+							<div className="row">
+								<div className="col-8">
+									<h5 className="card-title">
+										{comment.writer_name}
+									</h5>
+									<p className="card-text">
+										{comment.content}
+									</p>
+								</div>
+								<div className="col-4 d-flex align-items-center justify-content-end">
+									<span className="fs-4 me-2">
+										<AiOutlineHeart />
+									</span>
+									<span className="fs-5">
+										{comment.recommendation}
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				);
+			})}
+		</div>
+	);
 }
 
-const CommentForm = styled.form`
-  width:90%;
-  padding:20px 60px;
-  margin-left:10px;
-  background-color:#f8f8f8;
-  box-sizing:border-box;
-  margin-top:20px;
-  border:1px solid #ccc;
+const StyledBootstrapForm = styled.form`
+	display: "inline-flex";
+	flex-direction: "row";
+  boxSizing: "border-box",
+	justify-content: "space-between";
+  align-content: "flex-start";
+  align-items: "center";
 
-  label {
-    font-weight:bolder;
+	.form-label {
+		margin-top: 10px;
+	}
+
+	.form-control {
+		width: 40%;
+	}
+
+  #content-box {
+    width: 100%
   }
-
-  .content {
-    margin-top:40px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-  }
-
-  textarea {
-    width:80%;
-  }
-
-  button {
-    border:none;
-    background-color:#1351b8;
-    color:white;
-    font-size:18px;
-    font-weight:bolder;
-    padding:10px 20px;
-    border-radius:10px;
-  }
-`
-
-const CommentContainer = styled.div`
-  width:80%;
-
-  margin-left:40px;
-  margin-top:20px;
-
-  display:flex;
-  flex-direction:row;
-  justify-content:space-between;
-  align-items:flex-start;
-
-  padding:20px 40px;
-  background-color:#f8f8f8;
-
-  border-radius:20px;
-`
+`;
 
 export default Comments;

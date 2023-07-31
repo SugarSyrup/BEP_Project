@@ -1,8 +1,7 @@
-import { useEffect } from "react";
 import styled from "styled-components";
 
 function Policy(props) {
-	const { title, name, introduction, organizer, management } = props;
+	const { title, name, organizer, management } = props;
 
 	return (
 		<StyledDiv>
