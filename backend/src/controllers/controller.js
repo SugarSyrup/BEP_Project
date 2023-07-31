@@ -91,6 +91,36 @@ exports.postAsks = (req, res) => {
 	);
 };
 
+exports.postAsksDelete = (req, res) => {
+	const writer_name = req.body.writer_name;
+	const password = req.body.password;
+	const ask_id = req.body.ask_id;
+
+	const sql_check = `SELECT * FROM asks
+	WHERE ask_id = ? AND writer_name = ? AND password = ?`;
+	const sql_delete = `DELETE FROM asks
+	WHERE ask_id = ? AND writer_name = ? AND password = ?`;
+
+	const condition = [ask_id, writer_name, password];
+
+	db.query(sql_check, condition, (err, results) => {
+		if (err) {
+			return res.status(500).json({ err: err.message });
+		}
+
+		if (results.length === 0) {
+			return res.json({ message: "Data not found" });
+		} else {
+			db.query(sql_delete, condition, (err, results) => {
+				if (err) {
+					return res.status(500), json({ err: err.message });
+				}
+				res.json(results);
+			});
+		}
+	});
+};
+
 //
 
 exports.getPolicy = (req, res) => {
@@ -137,7 +167,6 @@ exports.getPolicyDetail = (req, res) => {
 		type_condition +
 		keywords_condition;
 
-	console.log(sql);
 	db.query(sql, (err, results) => {
 		if (err) {
 			return res.status(500).json({ err: err.message });

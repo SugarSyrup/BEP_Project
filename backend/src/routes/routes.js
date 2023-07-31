@@ -12,6 +12,7 @@ router.get("/asks/:askID", controller.getAsksDetail);
 
 router.post("/asks/:askID/recommendation", controller.postAsksRecommendation);
 router.post("/asks/write", controller.postAsks);
+router.post("/asks/delete", controller.postAsksDelete);
 
 //
 
