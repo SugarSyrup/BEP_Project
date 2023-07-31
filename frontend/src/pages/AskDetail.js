@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../style/Ask.css";
 import axios from "axios";
-import Modal from "react-bootstrap/Modal";
+import ModalComponent from "../components/Modal";
 
 export default function AskDetail() {
-	const navigate = useNavigate();
-
 	const location = useLocation();
 	const data = location.state.row;
 
@@ -28,69 +26,22 @@ export default function AskDetail() {
 			});
 	}, [data.ask_id]);
 
-	const [show, setShow] = useState(false);
-	const handleClose = () => {
-		setShow(false);
-		setAuthor("");
-		setPassword("");
-		setButtonDisabled(true);
-	};
-	const handleShow = () => {
-		setShow(true);
-	};
+	const [deleteModalShow, setDeleteModalShow] = useState(false);
+	const [modifyModalShow, setModifyModalShow] = useState(false);
 
-	const [writerName, setAuthor] = useState("");
-	const [password, setPassword] = useState("");
-	const [isButtonDisabled, setButtonDisabled] = useState(true);
-
-	const handleAuthorChange = (e) => {
-		const writerNameValue = e.target.value;
-		setAuthor(writerNameValue);
-		checkButtonDisabled(writerNameValue, password);
+	const handleDeleteModalClose = () => {
+		setDeleteModalShow(false);
+	};
+	const handleDeleteModalShow = () => {
+		setDeleteModalShow(true);
 	};
 
-	const handlePasswordChange = (e) => {
-		const passwordValue = e.target.value;
-		setPassword(passwordValue);
-		checkButtonDisabled(writerName, passwordValue);
+	const handleModifyModalClose = () => {
+		setModifyModalShow(false);
 	};
-
-	const checkButtonDisabled = (writerNameValue, passwordValue) => {
-		// 작성자명과 비밀번호 모두 작성되어야 버튼을 활성화
-		setButtonDisabled(!writerNameValue || !passwordValue);
+	const handleModifyeModalShow = () => {
+		setModifyModalShow(true);
 	};
-
-	const handleDelete = () => {
-		if (!(password.length === 4 && /^[0-9]*$/.test(password))) {
-			alert("비밀번호는 숫자 4글자 입니다. 다시 입력해주세요.");
-		} else {
-			postDelete();
-		}
-	};
-
-	async function postDelete() {
-		try {
-			await axios
-				.post(`/api/asks/delete`, {
-					writer_name: writerName,
-					password: password,
-					ask_id: data.ask_id,
-				})
-				.then((response) => {
-					if (response.data.message === "Data not found") {
-						alert(
-							"입력하신 정보가 일치하지 않습니다. 다시 작성해주세요."
-						);
-					} else {
-						alert("게시글이 삭제되었습니다.");
-						handleClose();
-						navigate("/ask");
-					}
-				});
-		} catch (error) {
-			console.error("Error sending recommendation:", error);
-		}
-	}
 
 	return (
 		<div className="page-wrapper">
@@ -132,88 +83,39 @@ export default function AskDetail() {
 					{detailData ? detailData.content : "Loading..."}
 				</div>
 				<div id="button-wrapper">
-					<button type="button" className="btn btn-primary">
-						글 수정
-					</button>
 					<button
 						type="button"
-						className="btn btn-primary"
-						onClick={handleShow}
+						className="btn btn-secondary ask-detail-button"
+						onClick={handleModifyeModalShow}
+					>
+						글 수정
+					</button>
+
+					<ModalComponent
+						show={modifyModalShow}
+						onClose={() => handleModifyModalClose(false)}
+						data={[data, detailData]}
+						type="수정"
+						modalTitle="작성하신 글을 수정하시겠습니까?"
+						modalBody="수정을 희망하시면 작성자명과 비밀번호를 입력해주세요."
+					/>
+
+					<button
+						type="button"
+						className="btn btn-secondary ask-detail-button"
+						onClick={handleDeleteModalShow}
 					>
 						글 삭제
 					</button>
 
-					<Modal
-						show={show}
-						onHide={handleClose}
-						backdrop="static"
-						keyboard={false}
-						centered
-					>
-						<Modal.Header closeButton>
-							<Modal.Title>
-								작성하신 글을 삭제하시겠습니까?
-							</Modal.Title>
-						</Modal.Header>
-						<Modal.Body>
-							<p>
-								삭제를 희망하시면 작성자명과 비밀번호를
-								입력해주세요.
-							</p>
-							<div id="form-wrapper">
-								<div className="input-group mb-3">
-									<span
-										className="input-group-text"
-										id="basic-addon1"
-									>
-										작성자명
-									</span>
-									<input
-										type="text"
-										className="form-control"
-										aria-label="Username"
-										aria-describedby="basic-addon1"
-										value={writerName}
-										onChange={handleAuthorChange}
-										placeholder="이름을 입력해주세요."
-									></input>
-								</div>
-								<div className="input-group mb-3">
-									<span
-										className="input-group-text"
-										id="basic-addon1"
-									>
-										비밀번호
-									</span>
-									<input
-										type="password"
-										className="form-control"
-										aria-label="Password"
-										aria-describedby="basic-addon2"
-										value={password}
-										onChange={handlePasswordChange}
-										placeholder="숫자 4글자를 입력해주세요."
-									></input>
-								</div>
-							</div>
-						</Modal.Body>
-						<Modal.Footer>
-							<button
-								className="btn btn-secondary"
-								onClick={handleClose}
-							>
-								취소
-							</button>
-							<button
-								className={`btn btn-primary ${
-									isButtonDisabled ? "disabled" : ""
-								}`}
-								onClick={handleDelete}
-							>
-								삭제
-							</button>
-						</Modal.Footer>
-					</Modal>
+					<ModalComponent
+						show={deleteModalShow}
+						onClose={() => handleDeleteModalClose(false)}
+						data={[data, detailData]}
+						type="삭제"
+						modalTitle="작성하신 글을 삭제하시겠습니까?"
+						modalBody="삭제를 희망하시면 작성자명과 비밀번호를 입력해주세요."
+					/>
 				</div>
 			</div>
 

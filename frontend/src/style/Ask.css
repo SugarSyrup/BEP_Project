@@ -130,6 +130,16 @@ thead {
 	text-decoration: none;
 }
 
+#button-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.ask-detail-button {
+	margin: 10px 5px;
+}
+
 /*  */
 
 #input-title {

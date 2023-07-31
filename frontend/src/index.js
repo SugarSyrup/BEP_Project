@@ -10,6 +10,7 @@ import Detail from "./pages/Detail";
 import Ask from "./pages/Ask";
 import AskDetail from "./pages/AskDetail";
 import AskWrite from "./pages/AskWrite";
+import AskModify from "./pages/AskModify";
 import PageNotFounded from "./pages/PageNotFounded.js";
 
 //Dev Branch
@@ -27,6 +28,7 @@ root.render(
 					<Route path="/ask" element={<Ask />} />
 					<Route path="/ask/:id" element={<AskDetail />} />
 					<Route path="/ask/write" element={<AskWrite />} />
+					<Route path="/ask/modify" element={<AskModify />} />
 					{/*  */}
 					<Route path="/*" element={<PageNotFounded />} />
 				</Routes>

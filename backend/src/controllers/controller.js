@@ -5,7 +5,7 @@ exports.getType = (req, res) => {
 
 	db.query(sql, (err, results) => {
 		if (err) {
-			return res.status(500), json({ err: err.message });
+			return res.status(500).json({ err: err.message });
 		}
 		res.json(results);
 	});
@@ -19,7 +19,7 @@ exports.getAsks = (req, res) => {
 
 	db.query(sql, (err, results) => {
 		if (err) {
-			return res.status(500), json({ err: err.message });
+			return res.status(500).json({ err: err.message });
 		}
 		res.json(results);
 	});
@@ -35,7 +35,7 @@ exports.getAsksTypeDetail = (req, res) => {
 
 	db.query(sql, [typeName], (err, results) => {
 		if (err) {
-			return res.status(500), json({ err: err.message });
+			return res.status(500).json({ err: err.message });
 		}
 		res.json(results);
 	});
@@ -49,7 +49,7 @@ exports.getAsksDetail = (req, res) => {
 
 	db.query(sql, [askID], (err, results) => {
 		if (err) {
-			return res.status(500), json({ err: err.message });
+			return res.status(500).json({ err: err.message });
 		}
 		res.json(results);
 	});
@@ -64,7 +64,7 @@ exports.postAsksRecommendation = (req, res) => {
 
 	db.query(sql, [recommendation, askID], (err, results) => {
 		if (err) {
-			return res.status(500), json({ err: err.message });
+			return res.status(500).json({ err: err.message });
 		}
 		res.json(results);
 	});
@@ -84,26 +84,22 @@ exports.postAsks = (req, res) => {
 		[type_id, title, writer_name, password, content],
 		(err, results) => {
 			if (err) {
-				return res.status(500), json({ err: err.message });
+				return res.status(500).json({ err: err.message });
 			}
 			res.json(results);
 		}
 	);
 };
 
-exports.postAsksDelete = (req, res) => {
-	const writer_name = req.body.writer_name;
-	const password = req.body.password;
-	const ask_id = req.body.ask_id;
+exports.getAsksInfo = (req, res) => {
+	const writer_name = req.query.writer_name;
+	const password = req.query.password;
+	const ask_id = req.query.ask_id;
 
-	const sql_check = `SELECT * FROM asks
-	WHERE ask_id = ? AND writer_name = ? AND password = ?`;
-	const sql_delete = `DELETE FROM asks
+	const sql = `SELECT * FROM asks
 	WHERE ask_id = ? AND writer_name = ? AND password = ?`;
 
-	const condition = [ask_id, writer_name, password];
-
-	db.query(sql_check, condition, (err, results) => {
+	db.query(sql, [ask_id, writer_name, password], (err, results) => {
 		if (err) {
 			return res.status(500).json({ err: err.message });
 		}
@@ -111,14 +107,49 @@ exports.postAsksDelete = (req, res) => {
 		if (results.length === 0) {
 			return res.json({ message: "Data not found" });
 		} else {
-			db.query(sql_delete, condition, (err, results) => {
-				if (err) {
-					return res.status(500), json({ err: err.message });
-				}
-				res.json(results);
-			});
+			return res.json({ message: "Success" });
 		}
 	});
+};
+
+exports.postAsksDelete = (req, res) => {
+	const writer_name = req.body.writer_name;
+	const password = req.body.password;
+	const ask_id = req.body.ask_id;
+
+	const sql = `DELETE FROM asks
+	WHERE ask_id = ? AND writer_name = ? AND password = ?`;
+
+	db.query(sql, [ask_id, writer_name, password], (err, results) => {
+		if (err) {
+			return res.status(500).json({ err: err.message });
+		}
+		res.json(results);
+	});
+};
+
+exports.postAsksModify = (req, res) => {
+	const ask_id = req.body.ask_id;
+	const title = req.body.title;
+	const type_id = req.body.type_id;
+	const content = req.body.content;
+	const writer_name = req.body.writer_name;
+	const password = req.body.password;
+
+	const sql = `UPDATE asks
+	SET type_id = ?, title = ?, writer_name = ?, password = ?, content = ?
+	WHERE ask_id = ?`;
+
+	db.query(
+		sql,
+		[type_id, title, writer_name, password, content, ask_id],
+		(err, results) => {
+			if (err) {
+				return res.status(500).json({ err: err.message });
+			}
+			res.json(results);
+		}
+	);
 };
 
 //
@@ -130,7 +161,7 @@ exports.getPolicy = (req, res) => {
 
 	db.query(sql, (err, results) => {
 		if (err) {
-			return res.status(500), json({ err: err.message });
+			return res.status(500).json({ err: err.message });
 		}
 		res.json(results);
 	});
