@@ -15,7 +15,8 @@ router.post("/asks/write", controller.postAsks);
 
 //
 
-router.get("/policy/:id", controller.getPolicyDetail);
+router.get("/policy/detail", controller.getPolicyDetail);
+router.get("/policy/:id", controller.getSinglePolicy);
 router.get("/policy", controller.getPolicy);
 
 router.get('/policy/:id/comment', controller.getComments);

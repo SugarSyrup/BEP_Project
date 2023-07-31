@@ -13,7 +13,6 @@ export default function Home() {
 		handleSubmit,
 	} = useForm();
 
-
 	const [questionsFromServer, setQuestionsFromServer] = useState([]);
 	const [uploadedPolicy, setUploadedPolicy] = useState([]);
 	const [allPolicys, setAllPolicys] = useState([]);
@@ -49,10 +48,33 @@ export default function Home() {
 	);
 
 	const onSubmit = (data) => {
-		console.log(data);
-	};
+		const condition = {};
 
-	console.log(questionsFromServer, allPolicys);
+		condition.keywords = data.policyName.split(",");
+		condition.age = data.age;
+		condition.type = Object.keys(data).filter((key) => data[key] === true);
+
+		console.log(condition);
+
+		if (condition.type.length === 0) {
+			alert("하나 이상의 정책 분야를 선택해주세요.");
+		} else {
+			axios
+				.get("/api/policy/detail", {
+					params: { condition: condition },
+				})
+				.then((response) => {
+					setUploadedPolicy(response.data);
+					setPage(0);
+				})
+				.catch((error) => {
+					console.error(
+						"There was an error fetching data from server",
+						error
+					);
+				});
+		}
+	};
 
 	return (
 		<div>
@@ -166,14 +188,14 @@ export default function Home() {
 						>
 							정책 분야
 						</label>
-						{questionsFromServer &&
+						{questionsFromServer.length > 0 &&
 							questionsFromServer.map((row) => {
 								return (
 									<Checkbox
 										id={row.id}
 										key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
 										name={row.name}
-										register={register(`check${row.id}`)}
+										register={register}
 									/>
 								);
 							})}
@@ -233,6 +255,7 @@ export default function Home() {
 								padding: "10px 20px",
 								borderRadius: "10px",
 							}}
+							onClick={handleSubmit(onSubmit)}
 						>
 							검색
 						</button>
@@ -240,19 +263,26 @@ export default function Home() {
 				</div>
 			</Container>
 			<div style={{ marginTop: "60px" }}>
-				<span style={{ fontSize: 24, fontWeight: "bolder" }}>
-					정책 검색 결과{" "}
-					<span style={{ color: "blue", fontSize: 30 }}>
-						{uploadedPolicy.length}
+				<div style={{ width: "100%" }}>
+					<span
+						style={{
+							fontSize: 24,
+							fontWeight: "bolder",
+						}}
+					>
+						정책 검색 결과{" "}
+						<span style={{ color: "blue", fontSize: 30 }}>
+							{uploadedPolicy.length}
+						</span>
+						{"   "}건
 					</span>
-					{"   "}건
-				</span>
+				</div>
 				<div
 					style={{
 						display: "inline-flex",
 						alignContent: "flex-start",
 						flexWrap: "wrap",
-						justifyContent: "center",
+						justifyContent: "left",
 					}}
 				>
 					{allPolicyForPage[page] &&
