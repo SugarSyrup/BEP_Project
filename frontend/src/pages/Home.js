@@ -8,10 +8,7 @@ import Checkbox from "../components/Checkbox";
 
 //정책 소개 메인 페이지
 export default function Home() {
-	const {
-		register,
-		handleSubmit,
-	} = useForm();
+	const { register, handleSubmit } = useForm();
 
 	const [questionsFromServer, setQuestionsFromServer] = useState([]);
 	const [uploadedPolicy, setUploadedPolicy] = useState([]);
@@ -53,8 +50,6 @@ export default function Home() {
 		condition.keywords = data.policyName.split(",");
 		condition.age = data.age;
 		condition.type = Object.keys(data).filter((key) => data[key] === true);
-
-		console.log(condition);
 
 		if (condition.type.length === 0) {
 			alert("하나 이상의 정책 분야를 선택해주세요.");
@@ -102,7 +97,14 @@ export default function Home() {
 						{allPolicys &&
 							allPolicys.slice(0, 4).map((row) => {
 								return (
-									<a key={row.policy_id} href={`/detail/${row.policy_id}`} style={{textDecoration:'none', color:'black'}}>
+									<a
+										key={row.policy_id}
+										href={`/detail/${row.policy_id}`}
+										style={{
+											textDecoration: "none",
+											color: "black",
+										}}
+									>
 										<Policy
 											title={row.title}
 											name={row.name}
@@ -288,8 +290,15 @@ export default function Home() {
 					{allPolicyForPage[page] &&
 						allPolicyForPage[page].map((row) => {
 							return (
-								<a key={row.policy_id} href={`/detail/${row.policy_id}`} style={{textDecoration:'none', color:'black'}}>
-									<Policy 
+								<a
+									key={row.policy_id}
+									href={`/detail/${row.policy_id}`}
+									style={{
+										textDecoration: "none",
+										color: "black",
+									}}
+								>
+									<Policy
 										title={row.title}
 										name={row.name}
 										introduction={row.introduction} // 오타 수정: intoduction -> introduction
