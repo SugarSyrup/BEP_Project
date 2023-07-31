@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Container, Nav, Row } from "react-bootstrap";
-import Navbar from 'react-bootstrap/Navbar';
 
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -72,7 +70,7 @@ function Layout(props) {
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <a href={item === 'Home' ? '/' : `ask`}>
+              <a href={item === 'Home' ? '/' : `/ask`}>
                 <Button key={item} sx={{ color: '#fff' }} >
                   {item}
                 </Button>
