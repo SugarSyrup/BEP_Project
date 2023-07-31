@@ -11,10 +11,7 @@ export default function Home() {
 	const {
 		register,
 		handleSubmit,
-		watch,
-		formState: { errors },
 	} = useForm();
-	const [bgColor, setBgcolor] = useState("white");
 
 	const [questionsFromServer, setQuestionsFromServer] = useState([]);
 	const [uploadedPolicy, setUploadedPolicy] = useState([]);
@@ -105,14 +102,15 @@ export default function Home() {
 						{allPolicys &&
 							allPolicys.slice(0, 4).map((row) => {
 								return (
-									<Policy
-										key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
-										title={row.title}
-										name={row.name}
-										introduction={row.introduction} // 오타 수정: intoduction -> introduction
-										organizer={row.organizer}
-										management={row.management}
-									/>
+									<a key={row.policy_id} href={`/detail/${row.policy_id}`} style={{textDecoration:'none', color:'black'}}>
+										<Policy
+											title={row.title}
+											name={row.name}
+											introduction={row.introduction} // 오타 수정: intoduction -> introduction
+											organizer={row.organizer}
+											management={row.management}
+										/>
+									</a>
 								);
 							})}
 					</div>
@@ -205,7 +203,6 @@ export default function Home() {
 
 					<div
 						style={{
-							display: "flex",
 							flexDirection: "row",
 							boxSizing: "border-box",
 							marginBottom: 10,
@@ -291,14 +288,15 @@ export default function Home() {
 					{allPolicyForPage[page] &&
 						allPolicyForPage[page].map((row) => {
 							return (
-								<Policy
-									key={row.id} // 각 항목은 고유한 key prop을 가져야 합니다.
-									title={row.title}
-									name={row.name}
-									introduction={row.introduction} // 오타 수정: intoduction -> introduction
-									organizer={row.organizer}
-									management={row.management}
-								/>
+								<a key={row.policy_id} href={`/detail/${row.policy_id}`} style={{textDecoration:'none', color:'black'}}>
+									<Policy 
+										title={row.title}
+										name={row.name}
+										introduction={row.introduction} // 오타 수정: intoduction -> introduction
+										organizer={row.organizer}
+										management={row.management}
+									/>
+								</a>
 							);
 						})}
 				</div>
