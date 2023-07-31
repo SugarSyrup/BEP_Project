@@ -23,7 +23,7 @@ router.get("/policy/detail", controller.getPolicyDetail);
 router.get("/policy/:id", controller.getSinglePolicy);
 router.get("/policy", controller.getPolicy);
 
-router.get('/policy/:id/comment', controller.getComments);
-router.post("/policy/:id/comment", controller.postComment);
+router.get("/policy/:id/getComment", controller.getComments);
+router.post("/policy/:id/postComment", controller.postComment);
 
 module.exports = router;
