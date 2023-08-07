@@ -5,9 +5,9 @@ function Policy(props) {
 
 	return (
 		<StyledDiv>
-			<span class="title">{title}</span>
+			<span className="title">{title}</span>
 			<span id="type">{name}</span>
-			<div class="else">
+			<div className="else">
 				<span>주관 : {organizer}</span>
 				<span>운영 : {management}</span>
 			</div>
@@ -18,8 +18,8 @@ function Policy(props) {
 const StyledDiv = styled.div`
 	box-sizing: border-box;
 
-	width: 300px;
-	height: 300px;
+	width: 250px;
+	height: 250px;
 	padding: 20px;
 	margin: 15px;
 	border: 1px solid lightgrey;
@@ -31,7 +31,7 @@ const StyledDiv = styled.div`
 	flex-direction: column;
 
 	.title {
-		font-size: 25px;
+		font-size: 20px;
 		word-spacing: -5px;
 		font-weight: 800;
 	}
@@ -39,7 +39,7 @@ const StyledDiv = styled.div`
 	#type {
 		background-color: gray;
 		color: white;
-		padding-left: 10px;
+		padding: 0 10px;
 		width: 78px;
 		margin-top: 5px;
 	}
@@ -53,6 +53,7 @@ const StyledDiv = styled.div`
 		position: absolute;
 		margin-bottom: 20px;
 		bottom: 0;
+		padding-right: 15px;
 	}
 `;
 
