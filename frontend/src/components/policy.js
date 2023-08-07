@@ -5,11 +5,11 @@ function Policy(props) {
 
 	return (
 		<StyledDiv>
-			<span className="title">{title}</span>
+			<span className="title">{title.slice(1, -1)}</span>
 			<span id="type">{name}</span>
 			<div className="else">
-				<span>주관 : {organizer}</span>
-				<span>운영 : {management}</span>
+				<span>주관 : {organizer.slice(1, -1)}</span>
+				<span>운영 : {management.slice(1, -1)}</span>
 			</div>
 		</StyledDiv>
 	);
@@ -22,6 +22,7 @@ const StyledDiv = styled.div`
 	height: 250px;
 	padding: 20px;
 	margin: 15px;
+	text-align: left;
 	border: 1px solid lightgrey;
 	border-radius: 20px;
 	background-color: aliceblue;

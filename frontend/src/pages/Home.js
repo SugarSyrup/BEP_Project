@@ -266,8 +266,13 @@ export default function Home() {
 					</div>
 				</div>
 			</Container>
-			<div style={{ marginTop: "60px" }}>
-				<div style={{ width: "100%" }}>
+			<div
+				style={{
+					marginTop: "60px",
+					textAlign: "center",
+				}}
+			>
+				<div style={{ width: "100%", textAlign: "left" }}>
 					<span
 						style={{
 							fontSize: 24,
@@ -287,6 +292,8 @@ export default function Home() {
 						alignContent: "flex-start",
 						flexWrap: "wrap",
 						justifyContent: "center",
+						minWidth: "1000px",
+						maxWidth: "1500px",
 					}}
 				>
 					{allPolicyForPage[page] &&
