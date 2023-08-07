@@ -32,7 +32,7 @@ export default function Home() {
 			});
 	}, []);
 
-	const [itemsPerPage, setItemsPerPage] = useState(30);
+	const [itemsPerPage, setItemsPerPage] = useState(40);
 	const [page, setPage] = useState(0);
 
 	const allPolicyForPage = Array.from(
@@ -92,6 +92,8 @@ export default function Home() {
 							gap: 50,
 							margin: "30px 20px",
 							alignItems: "center",
+							justifyContent: "space-between",
+							flewFlow: "wrap",
 						}}
 					>
 						{allPolicys &&
@@ -284,7 +286,7 @@ export default function Home() {
 						display: "inline-flex",
 						alignContent: "flex-start",
 						flexWrap: "wrap",
-						justifyContent: "left",
+						justifyContent: "center",
 					}}
 				>
 					{allPolicyForPage[page] &&
